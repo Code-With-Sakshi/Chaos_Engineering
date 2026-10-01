@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Visitor List</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        🏢 Apartment Visitor Management
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/visitors" class="active">
+            Visitor List
+        </a>
+
+        <a href="/search">
+            Search
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- MAIN -->
+
+<main class="container">
+
+
+    <section class="card">
+
+
+        <div class="section-title">
+
+            <div>
+
+                <h2>
+                    Visitor List
+                </h2>
+
+                <p>
+                    All visitor records stored in the database
+                </p>
+
+            </div>
+
+
+            <span class="section-icon">
+                👥
+            </span>
+
+        </div>
+
+
+
+        <div class="table-container">
+
+
+            <table>
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Visitor Name</th>
+
+                        <th>Wing</th>
+
+                        <th>Flat</th>
+
+                        <th>Phone</th>
+
+                        <th>Entry Time</th>
+
+                        <th>Exit Time</th>
+
+                        <th>Status</th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+
+
+                <tbody>
+
+
+                    {% for visitor in visitors %}
+
+
+                    <tr>
+
+
+                        <td>
+                            {{ visitor.id }}
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                {{ visitor.visitor_name }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="wing-badge">
+                                {{ visitor.wing }}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+                            {{ visitor.flat_number }}
+                        </td>
+
+
+                        <td>
+                            {{ visitor.phone }}
+                        </td>
+
+
+                        <td>
+
+                            {{ visitor.entry_time.strftime('%d-%m-%Y %I:%M %p') }}
+
+                        </td>
+
+
+                        <td>
+
+                            {% if visitor.exit_time %}
+
+                                {{ visitor.exit_time.strftime('%d-%m-%Y %I:%M %p') }}
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            {% if visitor.status == "Inside" %}
+
+                                <span class="inside-status">
+                                    Inside
+                                </span>
+
+                            {% else %}
+
+                                <span class="exit-status">
+                                    Exit
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            {% if visitor.status == "Inside" %}
+
+                                <form
+                                    action="/exit/{{ visitor.id }}"
+                                    method="POST"
+                                >
+
+                                    <button
+                                        type="submit"
+                                        class="exit-btn"
+                                    >
+
+                                        🚪 Exit
+
+                                    </button>
+
+                                </form>
+
+                            {% else %}
+
+                                <span class="completed">
+                                    ✓ Completed
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% else %}
+
+
+                    <tr>
+
+                        <td
+                            colspan="9"
+                            class="no-data"
+                        >
+
+                            👥 No visitor records found.
+
+                        </td>
+
+                    </tr>
+
+
+                    {% endfor %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+<footer>
+
+    Apartment Visitor Management System
+
+</footer>
+
+
+</body>
+
+</html>

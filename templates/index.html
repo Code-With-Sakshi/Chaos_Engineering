@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Apartment Visitor Management</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- ==============================
+     NAVBAR
+============================== -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        🏢 Apartment Visitor Management
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="/" class="active">
+            Home
+        </a>
+
+        <a href="/visitors">
+            Visitor List
+        </a>
+
+        <a href="/search">
+            Search
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- ==============================
+     MAIN
+============================== -->
+
+<main class="container">
+
+
+    <!-- ==============================
+         STATISTICS
+    ============================== -->
+
+    <section class="stats">
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                👥
+            </div>
+
+            <div>
+
+                <p>Currently Inside</p>
+
+                <h2>
+                    {{ inside_count }}
+                </h2>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📅
+            </div>
+
+            <div>
+
+                <p>Today's Visitors</p>
+
+                <h2>
+                    {{ today_count }}
+                </h2>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- ==============================
+         REGISTER VISITOR
+    ============================== -->
+
+    <section class="card">
+
+
+        <div class="section-title">
+
+            <div>
+
+                <h2>
+                    Register New Visitor
+                </h2>
+
+                <p>
+                    Enter visitor details below
+                </p>
+
+            </div>
+
+
+            <span class="section-icon">
+                ➕
+            </span>
+
+        </div>
+
+
+
+        <form
+            action="/add_visitor"
+            method="POST"
+        >
+
+
+            <div class="form-grid">
+
+
+                <!-- VISITOR NAME -->
+
+                <div class="form-group">
+
+                    <label>
+                        Visitor Name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="visitor_name"
+                        placeholder="Enter visitor name"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- WING -->
+
+                <div class="form-group">
+
+                    <label>
+                        Wing
+                    </label>
+
+                    <select
+                        name="wing"
+                        required
+                    >
+
+                        <option value="">
+                            Select Wing
+                        </option>
+
+                        <option value="A">
+                            Wing A
+                        </option>
+
+                        <option value="B">
+                            Wing B
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- FLAT -->
+
+                <div class="form-group">
+
+                    <label>
+                        Flat Number
+                    </label>
+
+                    <input
+                        type="number"
+                        name="flat_number"
+                        min="1"
+                        max="40"
+                        placeholder="1 - 40"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- PHONE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="text"
+                        name="phone"
+                        placeholder="10 or 12 digits"
+                        pattern="[0-9]{10}|[0-9]{12}"
+                        maxlength="12"
+                        required
+                    >
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="entry-info">
+
+                🕐 Entry time will be recorded automatically.
+
+            </div>
+
+
+
+            <button
+                type="submit"
+                class="primary-btn"
+            >
+
+                Register Visitor
+
+            </button>
+
+
+        </form>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- ==============================
+     FOOTER
+============================== -->
+
+<footer>
+
+    Apartment Visitor Management System
+
+</footer>
+
+
+</body>
+
+</html>

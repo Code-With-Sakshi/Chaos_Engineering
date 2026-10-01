@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Search Visitors</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        🏢 Apartment Visitor Management
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/visitors">
+            Visitor List
+        </a>
+
+        <a href="/search" class="active">
+            Search
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- MAIN -->
+
+<main class="container">
+
+
+    <!-- SEARCH CARD -->
+
+    <section class="card">
+
+
+        <div class="section-title">
+
+            <div>
+
+                <h2>
+                    Search Visitors
+                </h2>
+
+                <p>
+                    Search visitor records using flat number
+                </p>
+
+            </div>
+
+
+            <span class="section-icon">
+                🔍
+            </span>
+
+        </div>
+
+
+
+        <form
+            action="/search"
+            method="POST"
+            class="search-form"
+        >
+
+
+            <input
+                type="number"
+                name="flat_number"
+                min="1"
+                max="40"
+                placeholder="Enter flat number (1 - 40)"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="search-btn"
+            >
+
+                🔍 Search
+
+            </button>
+
+
+        </form>
+
+
+    </section>
+
+
+
+    <!-- SEARCH RESULTS -->
+
+    {% if searched %}
+
+
+    <section class="card">
+
+
+        <div class="section-title">
+
+            <div>
+
+                <h2>
+                    Search Results
+                </h2>
+
+                <p>
+
+                    Results for Flat
+                    <strong>
+                        {{ searched_flat }}
+                    </strong>
+
+                </p>
+
+            </div>
+
+
+            <span class="section-icon">
+                📋
+            </span>
+
+        </div>
+
+
+
+        <div class="table-container">
+
+
+            <table>
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Visitor Name</th>
+
+                        <th>Wing</th>
+
+                        <th>Flat</th>
+
+                        <th>Phone</th>
+
+                        <th>Entry Time</th>
+
+                        <th>Exit Time</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+
+
+                <tbody>
+
+
+                    {% for visitor in visitors %}
+
+
+                    <tr>
+
+
+                        <td>
+                            {{ visitor.id }}
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                {{ visitor.visitor_name }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="wing-badge">
+                                {{ visitor.wing }}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+                            {{ visitor.flat_number }}
+                        </td>
+
+
+                        <td>
+                            {{ visitor.phone }}
+                        </td>
+
+
+                        <td>
+
+                            {{ visitor.entry_time.strftime('%d-%m-%Y %I:%M %p') }}
+
+                        </td>
+
+
+                        <td>
+
+                            {% if visitor.exit_time %}
+
+                                {{ visitor.exit_time.strftime('%d-%m-%Y %I:%M %p') }}
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            {% if visitor.status == "Inside" %}
+
+                                <span class="inside-status">
+                                    Inside
+                                </span>
+
+                            {% else %}
+
+                                <span class="exit-status">
+                                    Exit
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% else %}
+
+
+                    <tr>
+
+                        <td
+                            colspan="8"
+                            class="no-data"
+                        >
+
+                            🔍 No visitors found for
+                            Flat {{ searched_flat }}.
+
+                        </td>
+
+                    </tr>
+
+
+                    {% endfor %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </section>
+
+
+    {% endif %}
+
+
+</main>
+
+
+<footer>
+
+    Apartment Visitor Management System
+
+</footer>
+
+
+</body>
+
+</html>
